@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <title>用户列表</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<style>
+    a {
+        color:#fff;
+    }
+    th {
+        text-align: center;
+    }
+</style>
+<body>
+
+
+<!--<button type="button" onclick="test()">提交</button>-->
+<button class="btn btn-primary form-control" style="height:50px;width:50px;"><a th:href="@{'/registerPage'}">添加用户</a></button>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>操作</th>
+        </tr>
+        <!--循环userList-->
+        <tr th:each="user:${userList}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.passWord}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/updatePage/'+${user.id}}">更改</a>
+                <a class="btn btn-danger" th:href="@{'/delete/'+${user.id}}">删除</a>
+            </td>
+        </tr>
+    </table>
+</body>
+
+<script>
+
+    function test(){
+        // var adata = {
+        //     "id" : 1,
+        //     "name" : "老王"
+        // };
+        // var data = JSON.stringify(adata);
+        $.ajax({
+            type : "POST",
+            dataType: "json",//通过GET方式上传请求
+            contentType : "application/json",//上传内容格式为json结构
+            // data : data,                                 //上传的参数
+            async: false ,
+            url : "testBoot/userIndex",     //请求的url。与后端@Request Mapping注解中的值一致。
+            success : function(data) {          //请求成功的回调函数
+                // if (data.code === 0){
+                    alert(data);
+                    // window.location.href = "success";
+                // }
+            },
+            error : function(e) {           //请求失败的回调函数
+                console.log(e);
+            }
+        });
+    };
+
+</script>
+</html>
